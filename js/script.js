@@ -12,7 +12,11 @@ searchBox.addEventListener("keyup", (event) => {
 })
 
 function getUser() {
+    infoElement.innerHTML = "";
+    repoElement.innerHTML = "";
+    repoElement.style.backgroundColor = "white";
     const user = searchBox.value;
+    searchBox.value = "";
     getInfo(user);
     getRepo(user);
 }
@@ -24,9 +28,9 @@ function getInfo(user) {
             return response.json();
         })
         .then( response => {
-            console.log(response);
+            showInfo(response);
         })
-        .catch( err => console.log(err));
+        .catch( err => infoElement.innerHTML = "User not Found");
 }
 
 function getRepo(user) {
@@ -36,7 +40,33 @@ function getRepo(user) {
             return response.json();
         })
         .then( response => {
-            console.log(response);
+            repoElement.style.backgroundColor = "rgba(233, 233, 233, 0.4)";
+            showRepo(response);
         })
         .catch( err => console.log(err));
+}
+
+function showInfo(data) {
+    const imgElement = document.createElement("img");
+    imgElement.src = data.avatar_url;
+    imgElement.style.height = "250px";
+
+    const a = document.createElement("a");
+    a.href = data.html_url;
+    a.target = "_blank";
+    a.innerHTML = data.name;
+
+    infoElement.appendChild(imgElement);
+    infoElement.appendChild(a);
+}
+
+function showRepo(data) {
+    for (repo of data) {
+        const a = document.createElement("a");
+        a.href = repo.html_url;
+        a.innerHTML = repo.name;
+        a.style.width = "300px";
+        a.target = "_blank";
+        repoElement.appendChild(a);
+    }
 }
