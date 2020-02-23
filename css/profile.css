@@ -1,0 +1,25 @@
+.container {
+    display: flex;
+    justify-content: space-around;
+    height: 82%;
+}
+
+.info{
+    width: 35%;
+    height: 100%;
+}
+
+.repo {
+    width: 60%;
+    height: 100%;
+}
+
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+
+    .info, .repo {
+        width: 100%;
+    }
+}
